@@ -2,31 +2,61 @@ import React, { useState, useEffect } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
 import { loadContacts } from "../utils/LocalStorage";
 import Contact from "../Components/Contact";
-import { sortAlphabetical } from '../utils/Sort';
+import { sortAlphabetical } from "../utils/Sort";
 
 function ContactList() {
   const [contacts, setContacts] = useState([]);
+  const [sort, setSort] = useState("descending");
 
   useEffect(() => {
     let contacts = loadContacts();
+    let sortedContacts;
     if (!contacts) {
       fetch("http://demo.sibers.com/users")
         .then(response => {
           return response.json();
         })
         .then(data => {
-          console.log(data);
-          const state = data.sort(sortAlphabetical);
+          const cleanedData = data.map(contact => {
+            const { name, email, username, phone } = contact;
+            return {
+              name,
+              email,
+              username,
+              phone
+            };
+          });
+
+          console.log(cleanedData);
+          const state = cleanedData.sort(sortAlphabetical);
           setContacts(state);
         });
+    } else {
+      setContacts(contacts);
     }
   }, []);
 
+  useEffect(() => {
+    if (sort === "descending") {
+      setContacts(contacts.reverse())
+    } else {
+
+    }
+  }, [contacts]);
+
+  const renderContacts = (contacts) => {
+    if(sort === 'ascending') {
+        contacts = contacts.reverse();
+    }
+
+    return contacts.map((contact, index) => {
+        return <Contact key={index} contact={contact} />;
+    })
+  }
+
   return (
     <ListGroup>
-      {contacts.map((contact, index) => {
-        return <Contact key={index} contact={contact} />;
-      })}
+      {renderContacts(contacts)}
     </ListGroup>
   );
 }
