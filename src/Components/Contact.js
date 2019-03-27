@@ -1,5 +1,8 @@
 import React from "react";
 import { ListGroupItem } from "reactstrap";
+const style = {
+    margin: "1rem"
+}
 
 const Contact = (props) => {
   const {
@@ -7,11 +10,13 @@ const Contact = (props) => {
     username,
     email,
     phone
-  } = this.props.contact;
+  } = props.contact;
 
-  return (<ListGroupItem>
-
-  </ListGroupItem> >);
+  return (<ListGroupItem style={style}>
+      <h2>{name}</h2>
+      <p>{username}</p>
+      <p>{email}</p>
+  </ListGroupItem>);
 }
 
 export default Contact;

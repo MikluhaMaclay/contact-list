@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
 import { loadContacts } from "../utils/LocalStorage";
-import Contact from '../Components/Contact';
+import Contact from "../Components/Contact";
+import { sortAlphabetical } from '../utils/Sort';
 
 function ContactList() {
   const [contacts, setContacts] = useState([]);
@@ -15,7 +16,8 @@ function ContactList() {
         })
         .then(data => {
           console.log(data);
-          setContacts(data);
+          const state = data.sort(sortAlphabetical);
+          setContacts(state);
         });
     }
   }, []);
