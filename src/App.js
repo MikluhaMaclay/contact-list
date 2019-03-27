@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Container } from 'reactstrap';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { Container } from "reactstrap";
+import ContactList from "./Components/ContactList";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Container>
-          
-        </Container>
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <div className="App">
+      <Container>
+        <ContactList />
+      </Container>
+    </div>
+  );
+};
 
 export default App;
