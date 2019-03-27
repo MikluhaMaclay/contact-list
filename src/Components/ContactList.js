@@ -3,6 +3,7 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 import { loadContacts } from "../utils/LocalStorage";
 import Contact from "../Components/Contact";
 import { sortAlphabetical } from "../utils/Sort";
+import uuid from 'uuid';
 
 function ContactList() {
   const [contacts, setContacts] = useState([]);
@@ -18,12 +19,13 @@ function ContactList() {
         })
         .then(data => {
           const cleanedData = data.map(contact => {
-            const { name, email, username, phone } = contact;
+            const { name, email, username, phone, } = contact;
             return {
               name,
               email,
               username,
-              phone
+              phone,
+              id: uuid()
             };
           });
 
@@ -49,8 +51,8 @@ function ContactList() {
         contacts = contacts.reverse();
     }
 
-    return contacts.map((contact, index) => {
-        return <Contact key={index} contact={contact} />;
+    return contacts.map((contact) => {
+        return <Contact key={contact.id} contact={contact} />;
     })
   }
 
