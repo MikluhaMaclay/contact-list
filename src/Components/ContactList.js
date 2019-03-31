@@ -3,7 +3,7 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 import { loadContacts } from "../utils/LocalStorage";
 import Contact from "../Components/Contact";
 import { sortAlphabetical } from "../utils/Sort";
-import uuid from 'uuid';
+import uuid from "uuid";
 
 function ContactList() {
   const [contacts, setContacts] = useState([]);
@@ -19,7 +19,7 @@ function ContactList() {
         })
         .then(data => {
           const cleanedData = data.map(contact => {
-            const { name, email, username, phone, } = contact;
+            const { name, email, username, phone } = contact;
             return {
               name,
               email,
@@ -38,29 +38,29 @@ function ContactList() {
     }
   }, []);
 
-  useEffect(() => {
-    if (sort === "descending") {
-      setContacts(contacts.reverse())
-    } else {
-
-    }
-  }, [contacts]);
-
-  const renderContacts = (contacts) => {
-    if(sort === 'ascending') {
-        contacts = contacts.reverse();
+  const renderContacts = contacts => {
+    if (sort === "ascending") {
+      contacts = contacts.reverse();
     }
 
-    return contacts.map((contact) => {
-        return <Contact key={contact.id} contact={contact} />;
-    })
-  }
+    let lastLetter = "";
 
-  return (
-    <ListGroup>
-      {renderContacts(contacts)}
-    </ListGroup>
-  );
+    return contacts.map(contact => {
+      if (lastLetter !== contact.name[0]) {
+        lastLetter = contact.name[0];
+        return (
+          <React.Fragment>
+            <h3 style={{padding: "2rem 0rem 0rem 1rem"}}>{lastLetter}</h3>
+            <hr style={{border: "1px solid black", width: "100%"}}/>
+            <Contact key={contact.id} contact={contact} />
+          </React.Fragment>
+        );
+      }
+      return <Contact key={contact.id} contact={contact} />;
+    });
+  };
+
+  return <ListGroup>{renderContacts(contacts)}</ListGroup>;
 }
 
 export default ContactList;
