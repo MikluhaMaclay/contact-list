@@ -72,8 +72,8 @@ const Modal = props => {
       if (!name) {
         throw new Error("Name cant be empty");
       }
-      const contact = {email, phone, username, name};
-      if(props.editedContact.id) {
+      const contact = { email, phone, username, name };
+      if (props.editedContact) {
         contact.id = props.editedContact.id;
       }
       props.onSubmit(contact);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ListGroup, ListGroupItem } from "reactstrap";
+import { ListGroup } from "reactstrap";
 import Contact from "../Components/Contact";
 import CreateContact from "./CreateContact";
 import Modal from "./Modal";
@@ -32,6 +32,7 @@ function ContactList() {
 
   const submitModalHandler = contact => {
     if (!editedContact) {
+      contact.id = uuid();
       setContacts([...contacts, contact].sort(sortAlphabetical));
     } else {
       let newContacts = [...contacts];
@@ -88,7 +89,6 @@ function ContactList() {
   const renderContacts = contacts => {
     if (isReverse) {
       contacts = contacts.slice().reverse();
-      // setContacts(contacts1);
     }
 
     let lastLetter = "";

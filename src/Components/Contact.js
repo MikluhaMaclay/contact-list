@@ -27,36 +27,34 @@ const Header = styled.div`
   }
 `;
 
-const Actions = styled.div`
-`;
+const Actions = styled.div``;
 
 const Contact = props => {
   const { name, username, email, phone, id } = props.contact;
 
   const deleteHandler = () => {
     props.deleteContactHandler(id);
-  }
+  };
 
   const editHandler = () => {
     props.editContactButtonHandler(props.contact);
-  }
+  };
 
   return (
     <ListGroupItem style={{ margin: "1rem" }}>
       <Header>
         <h4>{name}</h4>
         <Actions>
-
-        <FontAwesomeIcon
-        onClick={editHandler}
-          icon={faUserEdit}
-          style={{ width: "3rem", height: "3rem", color: "#4286f4" }}
-        />
-        <FontAwesomeIcon
-        onClick={deleteHandler}
-          icon={faWindowClose}
-          style={{ width: "3rem", height: "3rem", color: "#4286f4" }}
-        />
+          <FontAwesomeIcon
+            onClick={editHandler}
+            icon={faUserEdit}
+            style={{ width: "3rem", height: "3rem", color: "#4286f4" }}
+          />
+          <FontAwesomeIcon
+            onClick={deleteHandler}
+            icon={faWindowClose}
+            style={{ width: "3rem", height: "3rem", color: "#4286f4" }}
+          />
         </Actions>
       </Header>
       {username && (
