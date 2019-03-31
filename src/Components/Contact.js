@@ -13,7 +13,7 @@ const Contact = (props) => {
   } = props.contact;
 
   return (<ListGroupItem style={style}>
-      <h2>{name}</h2>
+      <h4>{name}</h4>
       <p>{username}</p>
       <p>{email}</p>
   </ListGroupItem>);

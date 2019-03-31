@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
-import { loadContacts } from "../utils/LocalStorage";
 import Contact from "../Components/Contact";
+import CreateContact from './CreateContact';
+
+import { loadContacts } from "../utils/LocalStorage";
 import { sortAlphabetical } from "../utils/Sort";
 import uuid from "uuid";
+import styled from 'styled-components';
+
+
+const IndexLine = styled.hr`
+border: 1px solid black;
+width: 100%;
+`;
+
+const IndexLetter = styled.h3`
+padding: 2rem 0rem 0rem 1rem;
+`;
 
 function ContactList() {
   const [contacts, setContacts] = useState([]);
-  const [sort, setSort] = useState("descending");
+  const [sort, setSort] = useState("ascending");
+
+  const createContactButtonHandler = {
+    
+  };
 
   useEffect(() => {
     let contacts = loadContacts();
-    let sortedContacts;
     if (!contacts) {
       fetch("http://demo.sibers.com/users")
         .then(response => {
@@ -50,8 +66,8 @@ function ContactList() {
         lastLetter = contact.name[0];
         return (
           <React.Fragment>
-            <h3 style={{padding: "2rem 0rem 0rem 1rem"}}>{lastLetter}</h3>
-            <hr style={{border: "1px solid black", width: "100%"}}/>
+            <IndexLetter>{lastLetter}</IndexLetter>
+            <IndexLine/>
             <Contact key={contact.id} contact={contact} />
           </React.Fragment>
         );
@@ -60,7 +76,10 @@ function ContactList() {
     });
   };
 
-  return <ListGroup>{renderContacts(contacts)}</ListGroup>;
+  return (<ListGroup>
+    {renderContacts(contacts)}
+    <CreateContact createContactButtonHandler={createContactButtonHandler}></CreateContact>
+  </ListGroup>)
 }
 
 export default ContactList;
