@@ -41,7 +41,7 @@ function ContactList() {
   useEffect(() => {
     let contacts = loadContacts();
     if (!contacts) {
-      fetch("")
+      fetch("http://demo.sibers.com/users")
         .then(response => {
           return response.json();
         })
@@ -68,7 +68,7 @@ function ContactList() {
 
   const renderContacts = contacts => {
     if (isReverse) {
-      contacts = contacts.reverse();
+      contacts = contacts.slice().reverse();
       // setContacts(contacts1);
     }
     console.log(isReverse, contacts);
