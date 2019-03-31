@@ -5,6 +5,7 @@ import CreateContact from "./CreateContact";
 import Modal from "./Modal";
 import BackDrop from "./BackDrop";
 import NavBar from "./NavBar";
+import Search from "./Search";
 
 import { loadContacts } from "../utils/LocalStorage";
 import { sortAlphabetical } from "../utils/Sort";
@@ -25,6 +26,7 @@ function ContactList() {
   const [isReverse, setIsReverse] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editedContact, setEditedContact] = useState(null);
+  const [searchExp, setSearchExp] = useState("");
 
   const showContactModal = () => {
     setShowModal(!showModal);
@@ -59,6 +61,10 @@ function ContactList() {
     setShowModal(!showModal);
   };
 
+  const getSearchExp = exp => {
+    setSearchExp(exp);
+  };
+
   useEffect(() => {
     let contacts = loadContacts();
     if (!contacts) {
@@ -89,6 +95,11 @@ function ContactList() {
   const renderContacts = contacts => {
     if (isReverse) {
       contacts = contacts.slice().reverse();
+    }
+
+    if (searchExp) {
+      const expression = new RegExp(searchExp, "i");
+      contacts = contacts.filter(({ name }) => name.match(expression));
     }
 
     let lastLetter = "";
@@ -126,6 +137,7 @@ function ContactList() {
           setIsReverse(!isReverse);
         }}
       />
+      <Search getSearch={getSearchExp} />
       <ListGroup>
         {renderContacts(contacts)}
         <CreateContact showCreateContactModal={showContactModal} />
