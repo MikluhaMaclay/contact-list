@@ -23,19 +23,39 @@ const IndexLetter = styled.h3`
 function ContactList() {
   const [contacts, setContacts] = useState([]);
   const [isReverse, setIsReverse] = useState(false);
-  const [creating, setCreating] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [editedContact, setEditedContact] = useState(null);
 
-  const showCreateContactModal = () => {
-    setCreating(!creating);
+  const showContactModal = () => {
+    setShowModal(!showModal);
   };
 
-  const createContactHandler = contact => {
-    setContacts([...contacts, contact].sort(sortAlphabetical));
-    setCreating(!creating);
+  const submitModalHandler = contact => {
+    if (!editedContact) {
+      setContacts([...contacts, contact].sort(sortAlphabetical));
+    } else {
+      let newContacts = [...contacts];
+      let index = newContacts.findIndex(el => el.id === contact.id);
+      newContacts[index] = contact;
+      console.log(contact);
+      setContacts(newContacts.sort(sortAlphabetical));
+      setEditedContact(null);
+    }
+    setShowModal(!showModal);
   };
 
   const modalCancelHandler = () => {
-    setCreating(!creating);
+    setShowModal(!showModal);
+    setEditedContact(null);
+  };
+
+  const deleteContactHandler = id => {
+    setContacts(contacts.filter(contact => contact.id !== id));
+  };
+
+  const editContactButtonHandler = contact => {
+    setEditedContact(contact);
+    setShowModal(!showModal);
   };
 
   useEffect(() => {
@@ -65,13 +85,11 @@ function ContactList() {
     }
   }, []);
 
-
   const renderContacts = contacts => {
     if (isReverse) {
       contacts = contacts.slice().reverse();
       // setContacts(contacts1);
     }
-    console.log(isReverse, contacts);
 
     let lastLetter = "";
 
@@ -82,11 +100,22 @@ function ContactList() {
           <React.Fragment key={contact.id}>
             <IndexLetter>{lastLetter}</IndexLetter>
             <IndexLine />
-            <Contact contact={contact} />
+            <Contact
+              contact={contact}
+              deleteContactHandler={deleteContactHandler}
+              editContactButtonHandler={editContactButtonHandler}
+            />
           </React.Fragment>
         );
       }
-      return <Contact key={contact.id} contact={contact} />;
+      return (
+        <Contact
+          key={contact.id}
+          contact={contact}
+          deleteContactHandler={deleteContactHandler}
+          editContactButtonHandler={editContactButtonHandler}
+        />
+      );
     });
   };
 
@@ -99,15 +128,16 @@ function ContactList() {
       />
       <ListGroup>
         {renderContacts(contacts)}
-        <CreateContact showCreateContactModal={showCreateContactModal} />
-        {creating && <BackDrop />}
-        {creating && (
+        <CreateContact showCreateContactModal={showContactModal} />
+        {showModal && <BackDrop />}
+        {showModal && (
           <Modal
             canCancel
             canCreate
             title="Create new contact"
-            onSubmit={createContactHandler}
+            onSubmit={submitModalHandler}
             onCancel={modalCancelHandler}
+            editedContact={editedContact}
           />
         )}
       </ListGroup>

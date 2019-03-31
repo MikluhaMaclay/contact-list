@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input, Alert } from "reactstrap";
 import uuid from "uuid";
@@ -63,7 +63,7 @@ const Button = styled.button`
 const Modal = props => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState(null);
 
@@ -72,11 +72,25 @@ const Modal = props => {
       if (!name) {
         throw new Error("Name cant be empty");
       }
-      props.onSubmit({ email, phone, address, name, id: uuid() });
+      const contact = {email, phone, username, name};
+      if(props.editedContact.id) {
+        contact.id = props.editedContact.id;
+      }
+      props.onSubmit(contact);
     } catch (err) {
       setError(err.message);
     }
   };
+
+  useEffect(() => {
+    if (props.editedContact) {
+      const { email, phone, username, name } = props.editedContact;
+      setEmail(email);
+      setName(name);
+      setUsername(username);
+      setPhone(phone);
+    }
+  }, []);
 
   return (
     <ModalWindow>
@@ -84,14 +98,28 @@ const Modal = props => {
       <ModalContent>
         <Form>
           <FormGroup>
-            <Label for="phoneField">Phone</Label>
+            <Label for="nameField">Name</Label>
             <Input
-              type="phone"
-              name="phone"
-              id="emailField"
-              placeholder="Contact's phone"
+              type="text"
+              name="name"
+              id="nameField"
+              placeholder="Contact's name"
+              value={name}
               onChange={e => {
-                setPhone(e.target.value);
+                setName(e.target.value);
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="username">Username</Label>
+            <Input
+              type="text"
+              name="username"
+              id="usernameField"
+              placeholder="Contact's username"
+              value={username}
+              onChange={e => {
+                setUsername(e.target.value);
               }}
             />
           </FormGroup>
@@ -102,32 +130,22 @@ const Modal = props => {
               name="email"
               id="emailField"
               placeholder="Contact's email"
+              value={email}
               onChange={e => {
                 setEmail(e.target.value);
               }}
             />
           </FormGroup>
           <FormGroup>
-            <Label for="address">Address</Label>
+            <Label for="phoneField">Phone</Label>
             <Input
-              type="text"
-              name="address"
-              id="addressField"
-              placeholder="Contact's address"
+              type="phone"
+              name="phone"
+              id="emailField"
+              placeholder="Contact's phone"
+              value={phone}
               onChange={e => {
-                setAddress(e.target.value);
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="nameField">Name</Label>
-            <Input
-              type="text"
-              name="name"
-              id="nameField"
-              placeholder="Contact's name"
-              onChange={e => {
-                setName(e.target.value);
+                setPhone(e.target.value);
               }}
             />
           </FormGroup>
