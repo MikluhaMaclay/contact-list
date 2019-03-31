@@ -41,7 +41,7 @@ function ContactList() {
   useEffect(() => {
     let contacts = loadContacts();
     if (!contacts) {
-      fetch("http://demo.sibers.com/users")
+      fetch("")
         .then(response => {
           return response.json();
         })
