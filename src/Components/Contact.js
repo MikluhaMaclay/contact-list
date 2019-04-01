@@ -1,5 +1,5 @@
 import React from "react";
-import { ListGroupItem, Button } from "reactstrap";
+import { ListGroupItem} from "reactstrap";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

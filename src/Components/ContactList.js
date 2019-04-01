@@ -28,10 +28,12 @@ function ContactList() {
   const [editedContact, setEditedContact] = useState(null);
   const [searchExp, setSearchExp] = useState("");
 
+  // Toggle modal window
   const showContactModal = () => {
     setShowModal(!showModal);
   };
 
+  // Submit contact from modal
   const submitModalHandler = contact => {
     if (!editedContact) {
       contact.id = uuid();
@@ -46,6 +48,7 @@ function ContactList() {
     setShowModal(!showModal);
   };
 
+  // Close modal window
   const modalCancelHandler = () => {
     setShowModal(!showModal);
     setEditedContact(null);
@@ -64,6 +67,7 @@ function ContactList() {
     setSearchExp(exp);
   };
 
+  // First load, get initial state from api or localstorage
   useEffect(() => {
     let contacts = loadContacts();
     if (!contacts) {
@@ -72,6 +76,7 @@ function ContactList() {
           return response.json();
         })
         .then(data => {
+          // Cleaning data from unused fields
           const cleanedData = data.map(contact => {
             const { name, email, username, phone } = contact;
             return {
@@ -91,23 +96,30 @@ function ContactList() {
     }
   }, []);
 
-  useEffect(()=>{
+  // Save contact to localstorage on every call
+  useEffect(() => {
     saveContacts(contacts);
-  }, [contacts])
+  }, [contacts]);
 
+  // Conditionally renred contacts
   const renderContacts = contacts => {
+
+    // Order condition
     if (isReverse) {
       contacts = contacts.slice().reverse();
     }
 
+    // Search condition
     if (searchExp) {
       const expression = new RegExp(searchExp, "i");
       contacts = contacts.filter(({ name }) => name.match(expression));
     }
 
+    // Index letter
     let lastLetter = "";
 
     return contacts.map(contact => {
+      // Condition for index letter
       if (lastLetter.toUpperCase() !== contact.name[0].toUpperCase()) {
         lastLetter = contact.name[0].toUpperCase();
         return (
@@ -149,7 +161,7 @@ function ContactList() {
           <Modal
             canCancel
             canCreate
-            title={editedContact ? "Edit" : 'Create new contact'}
+            title={editedContact ? "Edit" : "Create new contact"}
             onSubmit={submitModalHandler}
             onCancel={modalCancelHandler}
             editedContact={editedContact}

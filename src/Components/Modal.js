@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input, Alert } from "reactstrap";
-import uuid from "uuid";
 
 const ModalWindow = styled.div`
   width: 90%;
