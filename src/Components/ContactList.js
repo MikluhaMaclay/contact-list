@@ -146,7 +146,7 @@ function ContactList() {
           <Modal
             canCancel
             canCreate
-            title="Create new contact"
+            title={editedContact ? "Edit" : 'Create new contact'}
             onSubmit={submitModalHandler}
             onCancel={modalCancelHandler}
             editedContact={editedContact}
