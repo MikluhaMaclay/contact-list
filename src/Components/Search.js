@@ -4,7 +4,7 @@ import { Input } from 'reactstrap';
 
 function Search(props) {
     const searchHandler = (e) => {
-        const exp = "^("+ e.target.value + ").+";
+        const exp = "^("+ e.target.value + ").*";
         props.getSearch(exp);
     }
   return (
