@@ -154,7 +154,7 @@ const Modal = props => {
       {error && <Alert color="danger">{error}</Alert>}
       <ModalButtons>
         {props.canCancel && <Button onClick={props.onCancel}>Cancel</Button>}
-        {props.canCreate && <Button onClick={submitHandler}>Create</Button>}
+        {props.canCreate && <Button onClick={submitHandler}>Submit</Button>}
       </ModalButtons>
     </ModalWindow>
   );
