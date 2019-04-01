@@ -5,7 +5,7 @@ import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 const AddButton = styled.div`
   position: fixed;
-  left: 70%;
+  left: 65%;
   top: 80%;
   cursor: pointer;
   filter: drop-shadow(0 0 1px #777);

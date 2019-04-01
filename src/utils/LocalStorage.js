@@ -8,7 +8,7 @@ export const loadContacts = () => {
     }
   };
   
-  export const saveContacts = (state: any) => {
+  export const saveContacts = (state) => {
     try {
       const serializedContacts = JSON.stringify(state);
       localStorage.setItem("contacts", serializedContacts);

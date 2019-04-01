@@ -7,7 +7,7 @@ import BackDrop from "./BackDrop";
 import NavBar from "./NavBar";
 import Search from "./Search";
 
-import { loadContacts } from "../utils/LocalStorage";
+import { loadContacts, saveContacts } from "../utils/LocalStorage";
 import { sortAlphabetical } from "../utils/Sort";
 import uuid from "uuid";
 import styled from "styled-components";
@@ -40,7 +40,6 @@ function ContactList() {
       let newContacts = [...contacts];
       let index = newContacts.findIndex(el => el.id === contact.id);
       newContacts[index] = contact;
-      console.log(contact);
       setContacts(newContacts.sort(sortAlphabetical));
       setEditedContact(null);
     }
@@ -91,6 +90,10 @@ function ContactList() {
       setContacts(contacts);
     }
   }, []);
+
+  useEffect(()=>{
+    saveContacts(contacts);
+  }, [contacts])
 
   const renderContacts = contacts => {
     if (isReverse) {
